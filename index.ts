@@ -32,7 +32,7 @@ type Member2 = {
 }
 let john2: Member2 = { name: "123" }
 
-//그런데 name뿐만 아니라 age, tel 등 이런 속성도 객체에 넣어야 하는 상황에서는?!
+//그런데 name뿐만 아니라 age, tel 등 이런 속성도 객체에 넣어야 하는 상황에서는?!!
 type Member3 = {
     [key:string]:string
 }
