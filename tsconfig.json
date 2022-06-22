@@ -1,0 +1,8 @@
+
+// ts->js로 컴파일시 옵션설정가능 컴파일이란:js로 변환화는 과정
+{
+    "compilerOptions": {
+        "target": "es5", //몇버전으로 컴파일할지
+        "module": "commonjs", //자바스크립트의 import문법을 언제적 자바스크립트로 바꿔줄건지
+    }
+}
