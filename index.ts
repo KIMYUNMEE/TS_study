@@ -155,3 +155,49 @@ function 내함수3(x? :number) {
 내함수3(2); //가능
 //위와 같이 파라미터 우측에 그냥 물음표치면 됩니다. 그럼 앞으로 내함3수()를 사용할 때 파라미터없이도 쓸 수 있음!
 //사실 ?는 x : number | undefined 이거랑 똑같은 의미 (매우 중요) 즉, 파라미터가 정의가 안되면 자동으로 undefined가 되니까 그걸 반영한거라고 볼 수 있음(옵션으로 처리)
+
+
+//5. Type Narrowing 
+function 내함수4(x: number | string) {
+   return x + 1  //에러남 
+}
+//string | number 같은 union type 에는 일반적으로 조작을 못하게 막아놔서 그렇습니다.
+//해결방법은 1. 타입을 하나로 Narrowing 하거나 2. Assert하기
+
+// Narrowing:if문 등으로 타입을 하나로 정해주는 것
+function 나의함수(x :number | string){
+  if (typeof x === 'number') {
+    return x + 1
+  } 
+  else if (typeof x === 'string') {
+    return x + 1
+  }
+  else {
+    return 0
+  }
+}
+//if문과 typeof 키워드로 현재 파라미터의 타입을 검사해서 "이게 'number' 타입일 경우 이렇게 해주세요~" "이게 'string' 타입일 경우 이렇게 해주세요~" 이렇게 코드를 짜야 정상적으로 사용이 가능
+//타입스크립트는 타입 애매한걸 싫어해서 귀찮아도 해야함
+//그런데 함수 안에서 if문 쓸 때는 마지막에 else {} 이거 없으면 에러가 발생
+//tsconfig.js 파일에서 "noImplicitReturns": false, 추가하는 방법도 있음
+//if말고 in, instanceof 키워드도 사용가합니다.
+
+//6.Type Assertion
+//Narrowing 대신에 타입을 간편하게 assert 할 수도 있음 
+//"이 변수의 타입을 number로 생각해주세요"이런 뜻으로 코드를 짜면 타입스크립트 컴파일러가 눈감아준다.
+//변수명 as string <=  as라는 키워드 쓰면 됌
+function 내함수(x :number | string){ 
+    return (x as number) + 1 
+}
+console.log( 내함수(123) )
+//변수명 as number 라고 쓰면 "나는 이 변수를 number라고 주장하겠습니다~" 라는 뜻이며 실제로 그렇게 타입을 변경해준다.
+//근데 as 키워드를 사용하려면 "함수에 무조건 숫자가 들어올 것이다"라는 사실을 알고 있어야 안전하게 쓸 수 있다.
+//as 키워드 사용시 특징
+//1)as 키워드는 union type 같은 복잡한 타입을 하나의 정확한 타입으로 줄이는 역할을 수행
+//2)사실은 타입실드 임시 해제용입니다. 실제 코드 실행결과는 as 있을 때나 없을 때나 거의 동일
+
+//as 쓰면 간편하지만 정확히 코드짜려면 narrowing을 씁시다.
+//as 키워드는 맘대로 타입을 개발자 맘대로 주장하는 역할이라 때문에 엄격한 타입체크기능을 잠깐 안쓰겠다는 뜻과 동일
+//as 문법은 이럴 때 쓰자!
+//1)왜 타입에러가 나는지 정말 모르겠는 상황에 임시로 에러해결용으로 사용하거나
+//2)내가 어떤 타입이 들어올지 정말 확실하게 알고 있는데 컴파일러 에러가 방해할 때
