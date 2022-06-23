@@ -219,3 +219,58 @@ var 회원정보 = {
 회원정보.plusOne(1);
 회원정보.changeName();
 //plusOne 그리고 changeName 함수를 object 자료에 집어넣기
+//타입스크립트를 써도 html 조작이 가능한데 근데 그냥 자바스크립트 쓸 때와 약간 다른 점이 존재하는데 조금 귀찮다
+//strictNullChecks 옵션을 설정해줘야하는데 true로 한다는것은 null이 들어올 경우 체크해준다는 뜻으로 html 조작할 때 셀렉터로 찾으면 null 오류가 발생했을 때 오류 잡을 때도 도움된다.
+//혹은 "strict" : true 이렇게 쓰면 strickNullChecks 옵션도 자동으로 true로 켜진다.
+//11. <h4>제목을 다른 글자로 변경해보기 
+var 제목123 = document.querySelector('#title');
+제목123.innerHTML = '반갑소';
+// 에러발생->"제목123이라는 변수가 null일 수 있습니다"
+//이유는 셀렉터로 html을 찾으면 타입이 Element | null 이기 때문에 그렇기 때문에 그래서 아직 확실하지 않아서 점찍고 조작하고 변경하는걸 금지시켜주는 것이다.
+// 해결방법1.narrowing 
+var 제목12 = document.querySelector('#title');
+if (제목12 != null) {
+    제목12.innerHTML = '반갑소';
+}
+else { }
+// 해결방법2. 더 좋은 instanceof 사용하는 narrowing 방법
+var 제목13 = document.querySelector('#title');
+if (제목13 instanceof HTMLElement) {
+    제목13.innerHTML = '반갑소';
+}
+//instanceof 라는 연산자를 쓰는 것인데 우측에 HTMLElement 입력하면 그 타입인지 체크해준다.
+// 해결방법3. assertion  
+var 제목14 = document.querySelector('#title');
+제목14.innerHTML = '반갑소';
+//as 키워드를 쓰면 타입을 속일수 있다. =>HTMLElement 혹은 그냥 Element 이걸로 속이자 그렇지만 별로 좋지 않음
+// 해결방법4. optional chaining 연산자 
+var 제목15 = document.querySelector('#title');
+if ((제목15 === null || 제목15 === void 0 ? void 0 : 제목15.innerHTML) != undefined) {
+    제목15.innerHTML = '반갑소';
+}
+//가끔 innerHTML 작성할 때 엔터키로 자동완성시키면 ?. 이런 연산자가 자동으로 붙습니다.
+//js 신문법인데 뭔 뜻이냐면 왼쪽에 있는 object 자료안에 .innerHTML이 존재하면 써주고 없으면 undefined 남기라는 뜻이다.
+//그래서 가끔 ?. 연산자로 해결할 수도 있다.
+// 해결방법5.strict 설정 false로 끄기
+//null 체크해주는게 귀찮으면 설정을 끄면 체크안해줌
+//a 태그의 href 속성을 바꿔보기
+var 링크1 = document.querySelector('#link');
+if (링크1 instanceof HTMLElement) {
+    링크1.href = 'https://kakao.com'; //에러남 ㅅㄱ
+}
+//에러가 발생하는데 HTMLElement 타입은 href 그런 속성 없다고 한다.
+var 링크 = document.querySelector('#link');
+if (링크 instanceof HTMLAnchorElement) {
+    링크.href = 'https://kakao.com'; //잘됨
+}
+//html 태그 종류별로 정확한 타입명칭이 있는데 a 태그는 HTMLAnchorElement img 태그는 HTMLImageElement h4 태그는 HTMLHeadingElement
+//이런 정확한 타입으로 narrowing 해주셔야 html 속성 수정을 제대로할 수 있다.
+//12.이벤트리스너해보기 - 타입 지정
+var 버튼 = document.getElementById('button');
+버튼 === null || 버튼 === void 0 ? void 0 : 버튼.addEventListener('click', function () {
+    console.log('안녕');
+});
+//addEventListener 함수 붙일 때 물음표도 붙이는 것인데 optional chaining라고 한다.
+//optional chaining: object에서 자료뽑을 때 object.어쩌구 이렇게 자료를 뽑는데 object?.어쩌구 이렇로도 뽑을 수있다는 뜻으로 이걸 쓰면 어쩌구라는 자료가 object에 존재하면 그거 뽑아주고 존재하지 않으면 undefined 남겨주세요~ 라는 뜻과 동일하다.
+// 그래서 간혹 narrowing할 때 && 연산자로 undefined 체크하기 귀찮을 때 간혹 사용된다.
+//그래서 버튼이라는 변수가 없을 경우 그 자리에 undefined를 내보내고,HTMLElement로 잘 있으면 addEventListener() 잘 부착해주기 때문에 이것도 일종의 narrowing

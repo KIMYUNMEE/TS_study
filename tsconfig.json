@@ -4,5 +4,6 @@
     "compilerOptions": {
         "target": "es5", //몇버전으로 컴파일할지
         "module": "commonjs", //자바스크립트의 import문법을 언제적 자바스크립트로 바꿔줄건지
+        "strictNullChecks": true//null값이 들어오면 체크해줌
     }
 }
