@@ -38,3 +38,12 @@ type Member3 = {
 }
 let john3: Member2 = { name: "감자" }
 //[key:string]란 모든 object속성이라는 뜻 즉, "글자로 된 모든 object속성의 타입은:string"로 name뿐만아니라 다른 속성들도 들어올 수 있게 귀찮은 과정 없이 그냥 한번에 [key:string]으로 잡기
+
+let 코코:{
+    name:string
+} = {
+    name:"감감"
+}
+//Tip:변수 생성시 타입스크립트가 타입을 자동으로 부여해주므로 모든 변수에 일일히 타입 지정할 필요는 없다.
+
+let 나의가수: {제목:string,가수:string}={제목:"랄라라랄" ,가수:"굥굥"}
