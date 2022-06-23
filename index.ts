@@ -442,3 +442,125 @@ let 버튼 = document.getElementById('button');
 //optional chaining: object에서 자료뽑을 때 object.어쩌구 이렇게 자료를 뽑는데 object?.어쩌구 이렇로도 뽑을 수있다는 뜻으로 이걸 쓰면 어쩌구라는 자료가 object에 존재하면 그거 뽑아주고 존재하지 않으면 undefined 남겨주세요~ 라는 뜻과 동일하다.
 // 그래서 간혹 narrowing할 때 && 연산자로 undefined 체크하기 귀찮을 때 간혹 사용된다.
 //그래서 버튼이라는 변수가 없을 경우 그 자리에 undefined를 내보내고,HTMLElement로 잘 있으면 addEventListener() 잘 부착해주기 때문에 이것도 일종의 narrowing
+
+
+//13.type 키워드보다 좋은 interface 문법 
+ 
+//interface 문법을 쓰면 object 자료형의 타입을 보다 편리하게 지정 가능
+//ex) { color : 'red', width : 100 } 이런 object를 만들고 싶은데 type을 미리 정의하고 싶으면 interface 키워드를 이렇게 만들어봅시다. 
+
+interface Square { 
+  color :string, 
+  width :number, 
+} 
+
+let 네모 :Square = { color : 'red', width : 100 } 
+
+// type alias와 용도와 기능이 똑같다
+//특징
+//1) 대문자로 작명하고 2) { } 안에 타입을 명시해주면 됩니다. 
+//앞으로 object자료 만들 때 interface 만든걸 집어넣으시면 간편하게 타입지정이 가능
+ 
+//13-1.interface 장점은 extends도 가능
+//ex)Student interface & Teacher interface가 필요한데 Student는 name 속성이 들어가야하고 Teacher는 name 속성과 age 속성이 들어가야한다면 어떻게 만들까?
+
+interface Student {
+  name :string,
+}
+interface Teacher {
+  name :string,
+  age :number,
+}
+// 그런데 안에 중복사항들이 좀 보이는 것 같은데 extends 문법쓰시면 줄일 수 있다.
+//extends 문법은 interface 여기에 복사해달라는 뜻 
+
+interface Student {
+  name :string,
+}
+interface Teacher extends Student {
+  age :number
+}
+//Student interface를 extends 해달라고 적으면 Student 안에 있던걸 복사해서 Teacher에 넣어준다. 이제 Teacher 타입은 age, name 속성을 가지고 있다.
+
+//type 키워드와 interface키워드의 차이점
+
+//type alias와 interface는 거의 똑같은 기능을 제공하는데 차이점은 extends 문법이 다르다.
+
+
+interface Animal { 
+  name :string 
+} 
+interface Cat extends Animal { 
+  legs :number 
+}
+//interface의 경우 일반적으로 이렇게 extends 한다.
+
+type Animal = { 
+  name :string 
+} 
+type Cat = Animal & { legs: number }
+//type alias의 경우 extends는 안되고 & 기호를 쓰면 object 두개를 합칠 수 있다. 이러면 Cat 타입은 name, legs 속성을 가질 수 있다.
+// interface도 type처럼 & 기호를 이용해도 복사가능함
+
+
+interface Student {
+  name :string,
+}
+interface Teacher {
+  age :number
+}
+
+let 변수: Student & Teacher = { name: 'kim', age: 90 }
+    
+//& 기호 쓰는걸 intersection이라고 부르는데 extends 와 유사하게 사용가능
+//주의할점은 extends 쓸 때 타입끼리 중복속성이 발견될 경우 에러가 발생하는데 & 쓰면 때에 따라 아닐 수도 있다.
+
+
+
+//타입이름 중복선언시
+
+interface Animal12 { 
+  name :string 
+} 
+interface Animal12 { 
+  legs :number 
+}
+//interface의 경우 타입이름 중복선언을 허용해주며 중복시 extends 한 것이랑 동일하게 동작합니다. 
+//즉 Animal 타입은 name, legs 속성을 가질 수 있다.
+//장점은 type 선언을 자주 쓰는 외부 라이브러리 이용시 type 선언을 내가 덮어쓰기, override 하기 편리합니다.
+
+type Animal = { 
+  name :string 
+} 
+type Animal = { 
+  legs :number 
+}
+// type의 경우 중복선언을 허용하지 않는다.
+//그래서 일반적인 상황에선 type 키워드 자주 활용하면 되는데 다른 사람이 내 코드를 이용하는 상황이 많으면 interface로 유연하게 만드는게 좋다.
+//그래서 타입스크립트로 작성된 라이브러리들은 interface로 타입정해놓은 곳이 많습니다. 혹은 object 자료형은 전부 interface로 만들고 다른 자료형은 type 키워드로 만들것도 좋음
+//type과 interface 문법을 잘 알고 상황에 따라 쓰자
+
+
+//extend 할 때 object 안의 속성이 중복될 경우
+
+interface Animal { 
+  name :string 
+} 
+interface Dog extends Animal { 
+  name :number 
+}
+//Animal을 복사해서 Dog interface를 만들었다.=> 근데 name 속성이 중복되서 에러남
+
+interface Animal { 
+  name :string 
+} 
+interface Dog { 
+  name :number
+} 
+
+let 변수 :Dog & Animal = { name : '멍멍' }
+//& 연산자로 Dog, Animal을 합쳤다 => name 속성이 중복되서 에러남
+// 즉,interface 말고도 type 키워드도 똑같은 현상이 일어난다.
+//(주의)그런데 name : string , name : number 라서 에러가 나는 것이지 둘다 name : string 타입이면 에러가 나지않고 하나로 합쳐줌 
+
+

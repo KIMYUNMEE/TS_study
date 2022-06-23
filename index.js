@@ -270,7 +270,9 @@ var 버튼 = document.getElementById('button');
 버튼 === null || 버튼 === void 0 ? void 0 : 버튼.addEventListener('click', function () {
     console.log('안녕');
 });
-//addEventListener 함수 붙일 때 물음표도 붙이는 것인데 optional chaining라고 한다.
-//optional chaining: object에서 자료뽑을 때 object.어쩌구 이렇게 자료를 뽑는데 object?.어쩌구 이렇로도 뽑을 수있다는 뜻으로 이걸 쓰면 어쩌구라는 자료가 object에 존재하면 그거 뽑아주고 존재하지 않으면 undefined 남겨주세요~ 라는 뜻과 동일하다.
-// 그래서 간혹 narrowing할 때 && 연산자로 undefined 체크하기 귀찮을 때 간혹 사용된다.
-//그래서 버튼이라는 변수가 없을 경우 그 자리에 undefined를 내보내고,HTMLElement로 잘 있으면 addEventListener() 잘 부착해주기 때문에 이것도 일종의 narrowing
+var 네모 = { color: 'red', width: 100 };
+var 변수 = { name: 'kim', age: 90 };
+var 변수 = { name: '멍멍' };
+//& 연산자로 Dog, Animal을 합쳤다 => name 속성이 중복되서 에러남
+// 즉,interface 말고도 type 키워드도 똑같은 현상이 일어난다.
+//(주의)그런데 name : string , name : number 라서 에러가 나는 것이지 둘다 name : string 타입이면 에러가 나지않고 하나로 합쳐줌 
