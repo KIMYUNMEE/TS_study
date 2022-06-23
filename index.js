@@ -159,5 +159,63 @@ var 네모2 = {
     width: 100
 };
 var 좌표 = { x: 1, y: 2 };
-//이렇게 하면 에러남 
+//이렇게 하면 에러남
 // interface 키워드를 배우게 될텐데 이 키워드를 쓰면 재정의가 가능
+// 변수가 1이라는 값만 가질 수 있게 제한할면 const변수를 쓰면 되는데 1또는 0만 가질 수 이게 제한하고 싶을 땐 
+//그 변수에 number 이런 식으로 타입을 지정하는거는 너무 광범위 하니까 그럴때는 Literal type을 선언하자
+//8.Literal Type 만드는 법 
+var john;
+var kim;
+//'대머리', '솔로'라는 타입을 만들었고 literal type는 변수나 함수에 할당 가능하다.
+//그럼 이제 john이라는 변수는 이제 '대머리' 라는 글자만 할당
+//kim이라는 변수는 이제 '솔로' 라는 글자만 할당
+//특정 글자나 숫자만 가질 수 있게 제한을 두는 타입을 literal type라고 하고 즉, 더욱 엄격한 실드라고 한다.
+var 방향;
+방향 = 'left';
+//or 기호를 써도 된다. 이제 'left' 또는 'right' 글자만 가질 수 있는 변수가 된것
+function 함수(a) {
+    return 1;
+}
+//함수의 경우에는 파라미터 타입선언할 때 글자나 숫자를 집어넣으시면 그것만 파라미터로 넣을 수 있고
+//return 타입선언할 때도 글자나 숫자를 집어넣으시면 그 값만 return할 수 있음
+var 이름11 = 'kim' | 'park';
+// 이렇게literal type 쓰면 되는 것입니다. (이런 식의 문법은 자바스크립트에 없음)
+// 위와 같은 const 이름11 = 'kim' | 'park' 말고 as const 문법
+//'kim' 이라는 타입만 들어올 수 있는 함수를 만들었습니다. 근데 자료.name을 입력하고 싶은 상황
+var 자료 = {
+    name: 'kim'
+};
+function 내함수5(a) {
+}
+내함수5(자료.name);
+//에러가 나는 이유는?
+//함수는 'kim' 타입만 입력할 수 있다고 해놨고 자료.name 이라는건 string 타입이지 'kim' 타입이 아니기 때문이다.
+//해결방법은
+//1) object 만들 때 타입을 잘 미리 정하든가
+//2) 예전에 배웠던 assertion을 쓰시든가 (as 'kim' 붙이기)
+//3)as const 라는걸 애초에 object 자료에 붙일 수 있습니다. 
+var 자료 = {
+    name: 'kim'
+};
+function 내함수6(a) {
+}
+내함수6(자료.name);
+(function () { });
+var ABC = function (x, y) {
+    return x + y;
+};
+//10.methods 안에 타입지정하기 
+//object 자료 안에 함수도 넣을 수있다.
+var 회원정보 = {
+    name: 'kim',
+    age: 30,
+    plusOne: function (x) {
+        return x + 1;
+    },
+    changeName: function () {
+        console.log('안녕');
+    }
+};
+회원정보.plusOne(1);
+회원정보.changeName();
+//plusOne 그리고 changeName 함수를 object 자료에 집어넣기
